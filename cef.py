@@ -40,8 +40,11 @@ try:
     _SYSLOG_OPTIONS = {'PID': syslog.LOG_PID,
                        'CONS': syslog.LOG_CONS,
                        'NDELAY': syslog.LOG_NDELAY,
-                       'NOWAIT': syslog.LOG_NOWAIT,
-                       'PERROR': syslog.LOG_PERROR}
+                       'NOWAIT': syslog.LOG_NOWAIT}
+
+    # LOG_PERROR is undefined on some platforms, e.g. solaris
+    if hasattr(syslog, 'LOG_PERROR'):
+        _SYSLOG_OPTIONS['PERROR'] = syslog.LOG_PERROR
 
     _SYSLOG_PRIORITY = {'EMERG': syslog.LOG_EMERG,
                         'ALERT': syslog.LOG_ALERT,
