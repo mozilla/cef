@@ -249,11 +249,20 @@ def _get_fields(name, severity, environ, config, username=None,
     return fields
 
 
+def _len(data):
+    if isinstance(data, str):
+        return len(data)
+    elif isinstance(data, unicode):
+        return len(data.encode('utf8'))
+    return len(str(data))
+
+
 def _format_msg(fields, kw, maxlen=_MAXLEN):
     # adding custom extensions
     # sorting by size
     msg = _CEF_FORMAT % fields
-    extensions = [(len(str(value)), len(key), key, value)
+
+    extensions = [(_len(value), len(key), key, value)
                     for key, value in kw.items()
                   if key not in _EXTENSIONS]
     extensions.sort()

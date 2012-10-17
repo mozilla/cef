@@ -1,3 +1,4 @@
+# encoding: utf8
 # ***** BEGIN LICENSE BLOCK *****
 # Version: MPL 1.1/GPL 2.0/LGPL 2.1
 #
@@ -172,6 +173,21 @@ class TestCEFLogger(unittest.TestCase):
     def test_default_signature(self):
         content = self._log('xx', 5)
         self.assertTrue('xx|xx' in content)
+
+    def test_formater_unicode(self):
+        config = {'cef.version': '0', 'cef.vendor': 'mozilla',
+                  'cef.device_version': '3', 'cef.product': 'weave',
+                  'cef': True, 'cef.file': mkstemp()[1]}
+        file_ = config['cef.file']
+
+        environ = {'PATH_INFO': '1'}
+        kw = {'cs2': u'\xd0',
+              'cs2Label': u'\xd0'}
+        log_cef('name', 0, environ, config, **kw)
+        with open(file_) as f:
+            data = f.read()
+
+        self.assertTrue('cs2=\xc3\x90' in data, data)
 
 
 class TestCEFFormatter(unittest.TestCase):
