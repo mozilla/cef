@@ -204,7 +204,7 @@ def _filter_params(namespace, data, replace_dot='_', splitchar='.'):
         skey = key.split(splitchar)
         if skey[0] != namespace:
             continue
-        params[replace_dot.join(skey[1:])] = value
+        params[replace_dot.join(skey[1:])] = _to_str(value)
     return params
 
 
@@ -232,8 +232,8 @@ def _get_fields(name, severity, environ, config, username=None,
               'vendor': config['vendor'],
               'device_version': config['device_version'],
               'product': config['product'],
-              'host': _HOST,
-              'suser': username,
+              'host': _to_str(_HOST),
+              'suser': _to_str(username),
               'date': strftime("%b %d %H:%M:%S")}
 
     # make sure we don't have a | anymore in regular fields
@@ -241,7 +241,7 @@ def _get_fields(name, severity, environ, config, username=None,
         new_key = _check_key(key)
         if new_key == key:
             continue
-        kw[new_key] = value
+        kw[new_key] = _to_str(value)
         del kw[key]
 
     # overriding with provided datas

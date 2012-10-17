@@ -180,14 +180,16 @@ class TestCEFLogger(unittest.TestCase):
                   'cef': True, 'cef.file': mkstemp()[1]}
         file_ = config['cef.file']
 
-        environ = {'PATH_INFO': '1'}
-        kw = {'cs2': u'\xd0',
+        environ = {'PATH_INFO':
+                u'/reviewers/receipt/issue/\u043f\u0442\u0442-news'}
+        kw = {'cs2': 1L,
               'cs2Label': u'\xd0'}
-        log_cef('name', 0, environ, config, **kw)
+
+        log_cef('name', 0, environ, config, username=u'tarek', **kw)
         with open(file_) as f:
             data = f.read()
 
-        self.assertTrue('cs2=\xc3\x90' in data, data)
+        self.assertTrue('cs2Label=\xc3\x90' in data, data)
 
 
 class TestCEFFormatter(unittest.TestCase):
