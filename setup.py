@@ -47,4 +47,4 @@ setup(name='cef', author="Mozilla Services team",
       url="http://hg.mozilla.org/services/cef",
       description='Module that emits CEF logs',
       author_email="services-dev@mozilla.org", long_description=README,
-      license="MPL", version='0.4', py_modules=['cef'])
+      license="MPL", version='0.5', py_modules=['cef'])
